@@ -47,7 +47,7 @@ export const createProduct = async (req, res) => {
     });
     return res.status(201).json({
       status: 'Success',
-      data: 'product added successfully',
+      message: 'product added successfully',
       newProduct
     });
   } catch (err) {
@@ -56,16 +56,18 @@ export const createProduct = async (req, res) => {
     fs.unlink(`./uploads/${req.imagePath}`, (error) => {
       return res.status(400).json({
         status: 'error',
-        data: err.message
+        message: err.message
       });
     })
   }
 };
 
 export const updateProduct = async (req, res) => {
+  
   try {
     const { id } = req.params;
     const { title, price, detail, category, brand } = req.body ?? {};
+ 
 
     const existingProduct = await Product.findById(id);
     if (!existingProduct) {
@@ -89,7 +91,7 @@ export const updateProduct = async (req, res) => {
         await existingProduct.save();
         return res.status(200).json({
           status: 'success',
-          data: 'product successfully updated'
+          data: existingProduct
         });
 
       })
@@ -105,10 +107,10 @@ export const updateProduct = async (req, res) => {
   } catch (error) {
     if (req.imagePath) {
       fs.unlink(`./uploads/${req.imagePath}`, (error) => {
-        return res.status(500).json({ status: 'error', data: error.message });
+        return res.status(500).json({ status: 'error', message: error.message });
       })
     } else {
-      return res.status(500).json({ status: 'error', data: error.message });
+      return res.status(500).json({ status: 'error', message: error.message });
     }
   }
 }
@@ -124,10 +126,10 @@ export const deleteProduct = async (req, res) => {
       await isExist.deleteOne();
       return res.status(200).json({
         status: 'success',
-        data: 'product deleted successfully'
+        message: 'product deleted successfully'
       })
     })
   } catch (error) {
-    return res.status(500).json({ status: 'error', data: error.message });
+    return res.status(500).json({ status: 'error', message: error.message });
   }
 };

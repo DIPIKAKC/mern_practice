@@ -4,12 +4,15 @@ import fileUpload from 'express-fileupload';
 const app = express();
 const port = 5000;
 import productRoutes from './routes/productRoutes.js';
+import userRoutes from './routes/userRoutes.js'
 import nodemailer from 'nodemailer';
 import cors from 'cors';
 
 app.use(cors());
 app.use(express.json());
-app.use(productRoutes);
+
+app.use(fileUpload());
+app.use(express.static('uploads')); //locally backend ma save bhako file haru, frontend ma dekhauna/ solve garna ko lagi express ko 'STATIC' middleware halna parcha
 
 
 
@@ -67,5 +70,6 @@ app.get('/', (req, res) => {
 
 
 
-
+app.use(productRoutes);
+app.use(userRoutes);
 
