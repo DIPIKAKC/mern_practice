@@ -40,7 +40,7 @@ export default function Login() {
           Enter your email below to login to your account
         </CardDescription>
         <CardAction>
-          <Button onclick={() => nav('/signup')} variant="link">Sign Up</Button>
+          <Button onClick={() => nav('/signup')} variant="link">Sign Up</Button>
         </CardAction>
       </CardHeader>
       <CardContent>

@@ -67,6 +67,7 @@ export default function ProductUpdateForm({ product }) {
                             brand: product.brand,
                             image: '',
                             imageReview: product.image,
+                            stock:product.stock,
                         }}
 
                         onSubmit={async (val) => {
@@ -78,6 +79,7 @@ export default function ProductUpdateForm({ product }) {
                               formData.append('category', val.category);
                               formData.append('brand', val.brand);
                               formData.append('image', val.image);
+                              formData.append('stock', val.stock);
                               console.log(formData)
                               await updateProduct({
                                 id:product._id,
@@ -134,6 +136,19 @@ export default function ProductUpdateForm({ product }) {
                                             placeholder="product price"
                                         />
                                         {touched.price && errors.price && <p className="text-red-500">{errors.price}</p>}
+                                    </div>
+
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="stock">Stock</Label>
+                                        <Input
+                                            name="stock"
+                                            onChange={handleChange}
+                                            value={values.stock}
+                                            id="stock"
+                                            type="number"
+                                            placeholder="product stock"
+                                        />
+                                        {touched.stock && errors.stock && <p className="text-red-500">{errors.stock}</p>}
                                     </div>
 
                                     <Select

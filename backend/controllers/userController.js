@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 export const registerUser = async (req, res) => {
 
-    const { username, email, password, role } = req.body || {};
+    const { username, email, password } = req.body || {};
 
     try {
         const hashPass = bcrypt.hashSync(password, 10)
@@ -13,7 +13,7 @@ export const registerUser = async (req, res) => {
             username: username,
             password: hashPass,
             email: email,
-            role: role
+            // role: role
         })
         res.status(200).json({
             status: 'success',
@@ -22,6 +22,7 @@ export const registerUser = async (req, res) => {
         })
 
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({
             status: 'error',
             data: error.message
@@ -56,7 +57,7 @@ export const loginUser = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             status: 'error',
-            data: error.message
+            message: error.message
         })
     }
 }

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Spinner } from "@/components/ui/spinner"
 import { Formik } from "formik"
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router"
@@ -37,7 +38,7 @@ export default function Signup() {
                     Enter your email below to register your account
                 </CardDescription>
                 <CardAction>
-                    <Button onclick={() => nav(-1)} variant="link">Login</Button>
+                    <Button onClick={() => nav(-1)} variant="link">Login</Button>
                 </CardAction>
             </CardHeader>
             <CardContent>
@@ -67,61 +68,84 @@ export default function Signup() {
 
                         <form onSubmit={handleSubmit}>
                             <div className="flex flex-col gap-6">
+
+                                {/* Username */}
                                 <div className="grid gap-2">
                                     <Label htmlFor="username">Username</Label>
                                     <Input
                                         id="username"
-                                        type="username"
+                                        name="username"
+                                        type="text"
                                         placeholder="your name"
+                                        value={values.username}
+                                        onChange={handleChange}
                                     />
+                                    {errors.username && touched.username && (
+                                        <p className="text-red-500">{errors.username}</p>
+                                    )}
                                 </div>
+
+                                {/* Email */}
                                 <div className="grid gap-2">
                                     <Label htmlFor="email">Email</Label>
                                     <Input
                                         id="email"
+                                        name="email"
                                         type="email"
                                         placeholder="m@example.com"
-                                        required
+                                        value={values.email}
+                                        onChange={handleChange}
                                     />
+                                    {errors.email && touched.email && (
+                                        <p className="text-red-500">{errors.email}</p>
+                                    )}
                                 </div>
+
+                                {/* Password */}
                                 <div className="grid gap-2">
                                     <Label htmlFor="password">Password</Label>
-                                    <div className='relative'>
+                                    <div className="relative">
                                         <Input
-                                            onChange={handleChange}
+                                            id="password"
+                                            name="password"
+                                            type={show ? "text" : "password"}
+                                            placeholder="******"
+                                            className="pr-9"
                                             value={values.password}
-                                            type={show ? 'text' : 'password'}
-                                            name='password'
-                                            placeholder='******'
-                                            className='pr-9'
+                                            onChange={handleChange}
                                         />
 
                                         <Button
-                                            type='button'
+                                            type="button"
                                             onClick={() => setShow(!show)}
-                                            variant='ghost'
-                                            size='icon'
-                                            className='text-muted-foreground focus-visible:ring-ring/50 absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent'
+                                            variant="ghost"
+                                            size="icon"
+                                            className="absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent"
                                         >
                                             {show ? <LockKeyholeOpenIcon /> : <LockKeyhole />}
-                                            {/* <span className='sr-only'>Show password</span> */}
                                         </Button>
                                     </div>
-                                    {errors.password && touched.password && <p className="text-red-500">
-                                        {errors.password}
-                                    </p>}
+                                    {errors.password && touched.password && (
+                                        <p className="text-red-500">{errors.password}</p>
+                                    )}
                                 </div>
 
+                                {/* Submit */}
                                 <div className="grid gap-2">
-                                    {isLoading ? <Button size="sm" variant="outline" disabled className="w-full mt-5">
-                                        <Spinner/>
-                                        Submit
-                                    </Button> : <Button type="submit" className="w-full">
-                                        Signup
-                                    </Button>}
+                                    {isLoading ? (
+                                        <Button size="sm" variant="outline" disabled className="w-full mt-5">
+                                            <Spinner />
+                                            Submit
+                                        </Button>
+                                    ) : (
+                                        <Button type="submit" className="w-full">
+                                            Signup
+                                        </Button>
+                                    )}
                                 </div>
                             </div>
                         </form>
+
                     )}
                 </Formik>
             </CardContent>

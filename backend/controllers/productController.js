@@ -16,24 +16,23 @@ export const getProducts = async (req, res) => {
 
 export const getProduct = async (req, res) => {
   try {
-    // const { id } = req.params;
-    const product = await Product.findById(req.id);
+    const { id } = req.params;
+    const product = await Product.findById(id);
     if (!product) res.status(404).json({
       status: 'error',
       data: 'product not found'
     })
     return res.status(200).json({
       status: "success",
-      data: product
+      product
     });
   } catch (error) {
-    return res.status(500).json({ status: 'error', data: error.message });
+    return res.status(500).json({ status: 'error', message: error.message });
   }
 }
 
-
 export const createProduct = async (req, res) => {
-  const { title, price, detail, category, brand } = req.body ?? {};
+  const { title, price, detail, category, brand, stock } = req.body ?? {};
   const image = req.imagePath;
   console.log(image);
   try {
@@ -43,7 +42,8 @@ export const createProduct = async (req, res) => {
       detail,
       image,
       category,
-      brand
+      brand,
+      stock
     });
     return res.status(201).json({
       status: 'Success',
@@ -66,7 +66,7 @@ export const updateProduct = async (req, res) => {
   
   try {
     const { id } = req.params;
-    const { title, price, detail, category, brand } = req.body ?? {};
+    const { title, price, detail, category, brand, stock } = req.body ?? {};
  
 
     const existingProduct = await Product.findById(id);
@@ -83,6 +83,7 @@ export const updateProduct = async (req, res) => {
     existingProduct.detail = detail || existingProduct.detail;
     existingProduct.category = category || existingProduct.category;
     existingProduct.brand = brand || existingProduct.brand;
+    existingProduct.stock = stock || existingProduct.stock;
 
     //updating file
     if (req.imagePath) {

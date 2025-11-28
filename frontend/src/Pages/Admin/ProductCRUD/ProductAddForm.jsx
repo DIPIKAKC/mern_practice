@@ -62,6 +62,7 @@ export default function ProductAddForm() {
                             brand: '',
                             image: '',
                             imageReview: '',
+                            stock:''
                         }}
                         onSubmit={async (val) => {
                             try {
@@ -71,7 +72,8 @@ export default function ProductAddForm() {
                                 formData.append('price', val.price);
                                 formData.append('category', val.category);
                                 formData.append('brand', val.brand);
-                                formData.append('image', val.image);
+                                formData.append('image',  val.image);
+                                formData.append('stock',  val.stock);
                                 await createProduct({
                                     token: user.token,
                                     body: formData
@@ -125,6 +127,19 @@ export default function ProductAddForm() {
                                             placeholder="product price"
                                         />
                                         {touched.price && errors.price && <p className="text-red-500">{errors.price}</p>}
+                                    </div>
+
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="stock">Stock</Label>
+                                        <Input
+                                            name="stock"
+                                            onChange={handleChange}
+                                            value={values.stock}
+                                            id="stock"
+                                            type="number"
+                                            placeholder="product stock"
+                                        />
+                                        {touched.stock && errors.stock && <p className="text-red-500">{errors.stock}</p>}
                                     </div>
 
                                     <Select
