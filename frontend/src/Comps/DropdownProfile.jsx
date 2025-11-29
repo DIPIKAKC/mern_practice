@@ -1,4 +1,4 @@
-import { UserIcon, SettingsIcon, BellIcon, LogOutIcon, CreditCardIcon, ShoppingCart, LayoutDashboard } from 'lucide-react'
+import { UserIcon, SettingsIcon, BellIcon, LogOutIcon, CreditCardIcon, ShoppingCart, LayoutDashboard, ListOrderedIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useDispatch } from 'react-redux';
 import { removeUser } from '../Authentication/AuthSlice/userSlice';
@@ -23,6 +23,10 @@ const userItems = [
     property: 'Cart'
   },
   {
+    icon: ListOrderedIcon,
+    property: 'Orders'
+  },
+  {
     icon: LogOutIcon,
     property: 'Sign Out'
   }
@@ -44,7 +48,7 @@ const adminItems = [
 ];
 
 
-export default function DropdownProfile({user}) {
+export default function DropdownProfile({ user }) {
   const nav = useNavigate();
   const dispatch = useDispatch();
   const listItems = user.role === 'user' ? userItems : adminItems;
@@ -57,20 +61,29 @@ export default function DropdownProfile({user}) {
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-56'>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        
+
         <DropdownMenuGroup>
           {listItems.map((item, index) => (
             <DropdownMenuItem
-            key={index}
+              key={index}
               onClick={() => {
                 switch (item.property) {
                   case 'Sign Out':
                     dispatch(removeUser());
                     nav('/login');
                     break;
+                  case 'admin-panel':
+                    nav('/admindashboard');
+                    break;
+                  case 'Cart':
+                    nav('/checkout');
+                    break;
+                  case 'Orders':
+                    nav('/orders');
+                    break;
                 }
               }}
-              >
+            >
               <item.icon />
               <span className='text-popover-foreground'>{item.property}</span>
             </DropdownMenuItem>

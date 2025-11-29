@@ -25,7 +25,7 @@ export const createOrder = async (req, res) => {
 export const getOrders = async (req, res) => {
     
     try {
-        if (role==='admin'){
+        if (req.role==='admin'){
             const orders = await Order.find().populate([
                 {
                     path: 'products.productId',
@@ -41,7 +41,6 @@ export const getOrders = async (req, res) => {
             );
             return res.status(200).json({
                 status: 'success',
-                message: 'Order created successfully',
                 orders
             })
         }else{
@@ -53,7 +52,6 @@ export const getOrders = async (req, res) => {
             );
             return res.status(200).json({
                 status: 'success',
-                message: 'Order created successfully',
                 orders
             })
         }

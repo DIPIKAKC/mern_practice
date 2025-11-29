@@ -10,6 +10,7 @@ import EditProduct from "./Pages/Admin/EditProduct.jsx";
 import ProductAddForm from "./Pages/Admin/ProductCRUD/ProductAddForm.jsx";
 import ProductDetail from "./Comps/usercomponents/ProductDetail.jsx";
 import CheckOut from "./Comps/usercomponents/CheckOut.jsx";
+import Orders from "./Pages/Users/Orders.jsx";
 
 
 const router = createBrowserRouter([
@@ -43,7 +44,14 @@ const router = createBrowserRouter([
         path: "/products/:id",
         element: <ProductDetail />
       },
-
+      {
+        path: 'checkout',
+        element: <CheckOut />
+      },
+      {
+        path: 'orders',
+        element: <Orders />
+      },
 
       //ADMIN
       {
@@ -57,10 +65,6 @@ const router = createBrowserRouter([
       {
         path: 'product-edit/:id',
         element: <EditProduct />
-      },
-      {
-        path: 'checkout',
-        element: <CheckOut />
       },
     ]
   }

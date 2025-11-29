@@ -6,7 +6,7 @@ export const orderApi = mainApi.injectEndpoints({
 
         //query- what format data, mutation wat format data?
         getOrders: builder.query({
-            query: () => ({
+            query: (data) => ({
                 url: 'orders',
                 method: 'GET',
                 headers: {

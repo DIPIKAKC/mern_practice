@@ -6,7 +6,7 @@ import { checkUser } from '../middleware/checkUser.js';
 const router = express.Router();
 
 router.route('/api/orders')
-    .get(getOrders)
+    .get(checkUser,getOrders)
     .post(checkUser, createOrder)
     .all(notAllowed)
 
