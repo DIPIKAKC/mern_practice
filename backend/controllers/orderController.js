@@ -62,3 +62,24 @@ export const getOrders = async (req, res) => {
         })
     }
 }
+
+export const getOrder = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const order = await Order.findById(id).populate(
+      {
+        path: 'products.productId',
+        model: 'Product'
+      }
+    );
+    return res.status(200).json({
+      status: 'success',
+      order
+    })
+  } catch (err) {
+    return res.status(500).json({
+      status: 'error',
+      message: err.message
+    })
+  }
+}
