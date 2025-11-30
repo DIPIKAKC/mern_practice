@@ -141,7 +141,7 @@ export default function CheckOut() {
                         </div>
 
                         <DialogBox detail={'This action cannot be undone. Are you sure you want to checkout your orders?'} func={handleOrder}>
-                            <Button className={'w-full py-6 bg-green-700'}>CheckOut</Button>
+                            <Button disabled={isLoading || !carts.length} className={'w-full py-6 bg-green-700'}>CheckOut</Button>
                         </DialogBox>
                     </div>
                 </div>

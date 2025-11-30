@@ -26,7 +26,7 @@ export const productsApi = mainApi.injectEndpoints({
                 url: 'products',
                 method: 'POST',
                 headers: {
-                    Authorization: data.token,
+                    Authorization: `Bearer ${data.token}`,
 
                 },
                 body: data.body

@@ -81,6 +81,9 @@ export default function DropdownProfile({ user }) {
                   case 'Orders':
                     nav('/orders');
                     break;
+                  case 'Profile':
+                    nav('/profile');
+                    break;
                 }
               }}
             >

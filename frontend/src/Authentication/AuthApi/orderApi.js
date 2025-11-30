@@ -4,6 +4,14 @@ import { mainApi } from '../../App/mainApi.js'
 export const orderApi = mainApi.injectEndpoints({
     endpoints: (builder) => ({
 
+        getOrder: builder.query({
+            query: (id) => ({
+                url: `/orders/${id}`,
+                method: 'GET'
+            }),
+            providesTags: ['Order']
+        }),
+
         //query- what format data, mutation wat format data?
         getOrders: builder.query({
             query: (data) => ({
@@ -32,4 +40,4 @@ export const orderApi = mainApi.injectEndpoints({
     })
 })
 
-export const { useGetOrdersQuery, useCreateOrderMutation } = orderApi;
+export const { useGetOrderQuery, useGetOrdersQuery, useCreateOrderMutation } = orderApi;
