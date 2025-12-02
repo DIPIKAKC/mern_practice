@@ -12,6 +12,7 @@ import ProductDetail from "./Comps/usercomponents/ProductDetail.jsx";
 import CheckOut from "./Comps/usercomponents/CheckOut.jsx";
 import Orders from "./Pages/Users/Orders.jsx";
 import OrderDetail from "./Comps/usercomponents/OrderDetail.jsx";
+import UserProfile from "./Pages/Users/UserProfile.jsx";
 
 
 const router = createBrowserRouter([
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: 'order/:id',
         element: <OrderDetail />
+      },
+      {
+        path: 'profile',
+        element: <UserProfile />
       },
 
       //ADMIN

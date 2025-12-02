@@ -14,8 +14,9 @@ export default function OrderDetail() {
     return (
         <div>
 
-            {data && <div>
+            {data && <div className="p-9">
                 <h3>OrderId: {data.order._id}</h3>
+
                 <p className="text-slate-600">CreatedAt: {data.order.createdAt}</p>
                 <hr />
                 <div className="mt-5">

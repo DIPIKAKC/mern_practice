@@ -3,7 +3,15 @@ import fs from 'fs';
 
 export const getProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+
+    // const {rgt} = req.query;
+    // console.log(rgt); //4
+    // const products = await Product.find({rating:{$gt:rgt}});
+
+    const { select } = req.query;
+    const fields = select.replaceAll(',',' ');
+    const products = await Product.find().select(fields);
+    console.log(products)
     return res.status(200).json({
       status: "success",
       products
@@ -36,7 +44,7 @@ export const createProduct = async (req, res) => {
   const image = req.imagePath;
   console.log(image);
   try {
-    const newProduct=await Product.create({
+    const newProduct = await Product.create({
       title,
       price,
       detail,
@@ -63,11 +71,11 @@ export const createProduct = async (req, res) => {
 };
 
 export const updateProduct = async (req, res) => {
-  
+
   try {
     const { id } = req.params;
     const { title, price, detail, category, brand, stock } = req.body ?? {};
- 
+
 
     const existingProduct = await Product.findById(id);
     if (!existingProduct) {
