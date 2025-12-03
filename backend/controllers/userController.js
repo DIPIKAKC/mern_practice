@@ -93,7 +93,6 @@ export const updateProfile = async (req, res) => {
         isExist.username = username || isExist.username;
         isExist.email = email || isExist.email;
         await isExist.save();
-        console.log(isExist)
         return res.status(200).json({
             status: 'success',
             data: 'profile updated successfully'

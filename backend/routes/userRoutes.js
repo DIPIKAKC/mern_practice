@@ -18,9 +18,9 @@ router.route('/api/users')
 .patch(updateProfile)
 .all(notAllowed);
 
-// router.route('/api/user/:id')
-// .patch(updateProfile)
-// .all(notAllowed);
+router.route('/api/user/:id')
+.patch(updateProfile)
+.all(notAllowed);
 
 
 
