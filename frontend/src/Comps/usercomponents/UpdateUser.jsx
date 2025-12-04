@@ -47,15 +47,15 @@ export default function UpdateUser({ user }) {
 
           <Formik
             initialValues={{
-              username: data?.username || '',
-              email: data?.email || ''
+              username: data?.data?.username || '',
+              email: data?.data?.email || ''
             }}
             onSubmit={async (val) => {
 
 
               try {
                 await updateUser({
-                  token,
+                  token:user.token,
                   body: {
                     username: val.username,
                     email: val.email

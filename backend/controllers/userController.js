@@ -62,14 +62,14 @@ export const loginUser = async (req, res) => {
     }
 }
 
-export const getUsers = async (req, res) => {
+export const getUser = async (req, res) => {
     try {
-        const Users = await User.find();
-        if (!Users) return res.status(404).json({ status: 'error', data: 'Users not found' })
+        const user = await User.findById(req.userId).select('-password');
+        if (!user) return res.status(404).json({ status: 'error', data: 'user not found' })
 
         return res.status(200).json({
             status: "success",
-            data: Users
+            data: user
         });
 
     } catch (error) {

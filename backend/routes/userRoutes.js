@@ -1,7 +1,7 @@
 import express from 'express';
 import { notAllowed } from "../utils/notAllowed.js";
-import { getUsers, loginUser, registerUser, updateProfile } from '../controllers/userController.js';
-
+import { getUser, loginUser, registerUser, updateProfile } from '../controllers/userController.js';
+import { checkUser } from '../middleware/checkUser.js';
 
 const router = express.Router();
 
@@ -14,13 +14,13 @@ router.route('/api/users/register')
 .all(notAllowed);
 
 router.route('/api/users')
-.get(getUsers)
-.patch(updateProfile)
+.get(checkUser, getUser)
+.patch(checkUser, updateProfile)
 .all(notAllowed);
 
-router.route('/api/user/:id')
-.patch(updateProfile)
-.all(notAllowed);
+// router.route('/api/user/:id')
+// .patch(updateProfile)
+// .all(notAllowed);
 
 
 
