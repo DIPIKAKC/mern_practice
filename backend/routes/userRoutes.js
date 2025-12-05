@@ -1,22 +1,26 @@
 import express from 'express';
 import { notAllowed } from "../utils/notAllowed.js";
-import { getUser, loginUser, registerUser, updateProfile } from '../controllers/userController.js';
+import { changePassword, getUser, loginUser, registerUser, updateProfile } from '../controllers/userController.js';
 import { checkUser } from '../middleware/checkUser.js';
 
 const router = express.Router();
 
 router.route('/api/users/login')
-.post(loginUser)
-.all(notAllowed);
+    .post(loginUser)
+    .all(notAllowed);
 
 router.route('/api/users/register')
-.post(registerUser)
-.all(notAllowed);
+    .post(registerUser)
+    .all(notAllowed);
 
 router.route('/api/users')
-.get(checkUser, getUser)
-.patch(checkUser, updateProfile)
-.all(notAllowed);
+    .get(checkUser, getUser)
+    .patch(checkUser, updateProfile)
+    .all(notAllowed);
+
+router.route('/api/users/change-password')
+    .patch(checkUser, changePassword)
+    .all(notAllowed);
 
 // router.route('/api/user/:id')
 // .patch(updateProfile)

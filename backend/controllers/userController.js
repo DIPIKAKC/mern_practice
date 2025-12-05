@@ -104,3 +104,47 @@ export const updateProfile = async (req, res) => {
         });
     }
 }
+
+
+export const changePassword = async (req, res) => {
+    const { oldPassword, newPassword } = req.body;
+    if (!oldPassword || !newPassword) {
+        return res.status(400).json({
+            status: "error",
+            data: "Both old and new passwords are required",
+        });
+    }
+    try {
+        const user = await User.findById(req.userId);
+        if (!user) {
+            return res.status(404).json({
+                status: "error",
+                data: "User not found",
+            });
+        }
+        // Verify old password
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) {
+            return res.status(401).json({
+                status: "error",
+                data: "Old password is incorrect",
+            });
+        }
+        // Hash new password
+        const hashed = await bcrypt.hash(newPassword, 10);
+        user.password = hashed;
+
+        await user.save();
+
+        return res.status(200).json({
+            status: "success",
+            data: "Password updated successfully",
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            status: "error",
+            data: error.message,
+        });
+    }
+};
