@@ -22,9 +22,9 @@ router.route('/api/users/change-password')
     .patch(checkUser, changePassword)
     .all(notAllowed);
 
-// router.route('/api/user/:id')
-// .patch(updateProfile)
-// .all(notAllowed);
+router.route('/api/user/:id')
+.patch(updateProfile)
+.all(notAllowed);
 
 
 
