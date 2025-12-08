@@ -98,6 +98,7 @@ export const updateProfile = async (req, res) => {
             data: 'profile updated successfully'
         });
     } catch (err) {
+        console.log(err)
         return res.status(500).json({
             status: 'error',
             data: err.message
@@ -149,6 +150,8 @@ export const changePassword = async (req, res) => {
         });
     }
 };
+
+
 
 
 
