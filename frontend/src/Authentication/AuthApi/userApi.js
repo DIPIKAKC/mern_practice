@@ -26,9 +26,20 @@ const userApi = mainApi.injectEndpoints({
       }),
       invalidatesTags: ['User']
     }),
-
+    
+    changePassword: builder.mutation({
+      query: (data) => ({
+        url: `/users/change-password`,
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${data.token}`
+        },
+        body: data.body
+      }),
+      invalidatesTags: ['User']
+    }),
 
   })
 });
 
-export const { useGetUserQuery, useUpdateUserMutation } = userApi;
+export const { useGetUserQuery, useUpdateUserMutation, useChangePasswordMutation } = userApi;
