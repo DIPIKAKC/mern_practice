@@ -123,6 +123,7 @@ export const changePassword = async (req, res) => {
                 data: "User not found",
             });
         }
+        console.log(user)
         // Verify old password
         const isMatch = await bcrypt.compare(oldPassword, user.password);
         if (!isMatch) {
