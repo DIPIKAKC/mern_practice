@@ -12,13 +12,15 @@ import toast from "react-hot-toast"
 import { Spinner } from "@/components/ui/spinner"
 import { useChangePasswordMutation, useGetUserQuery } from "../../Authentication/AuthApi/userApi"
 import { Formik } from "formik"
+import { useNavigate } from "react-router"
 
 
 export default function ChangePassword({ user }) {
-
+    const nav = useNavigate();
     const { isLoading, data, error } = useGetUserQuery({ token: user.token })
     console.log(data);
-    const [changePassword, { isLoading: updateLoading }] = useChangePasswordMutation();
+    const [changePassword, { isLoading: updateLoading }] = useChangePasswordMutation();  
+
     if (isLoading) return <div className="flex gap-2 items-end">
         <h3>Loading</h3>
         <Spinner />
@@ -47,11 +49,12 @@ export default function ChangePassword({ user }) {
                                 await changePassword({
                                     token: user.token,
                                     body: {
-                                        oldPassword:val.oldPassword,
+                                        oldPassword: val.oldPassword,
                                         newPassword: val.newPassword
                                     }
                                 }).unwrap();
                                 toast.success('Password change successful');
+                                nav('/home');
                             } catch (error) {
                                 toast.error(error.data.message);
                             }
@@ -65,35 +68,31 @@ export default function ChangePassword({ user }) {
 
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="password">Old Password</Label>
+                                        <Label htmlFor="oldPassword">Old Password</Label>
                                         <Input
-                                            name='password'
+                                            name='oldPassword'
                                             onChange={handleChange}
-                                            value={values.password}
-                                            id="password"
-                                            type="text"
-                                            placeholder="JohnDoe"
-                                        />
-                                        {errors.password && touched.password && <p className="text-red-500">
-                                            {errors.password}
+                                            value={values.oldPassword}
+                                            id="oldPassword"
+                                            type="oldPassword" />
+                                        {errors.oldPassword && touched.oldPassword && <p className="text-red-500">
+                                            {errors.oldPassword}
                                         </p>}
 
                                     </div>
 
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="email">New Password</Label>
+                                        <Label htmlFor="newPassword">New Password</Label>
                                         <Input
-                                            name='password'
+                                            name='newPassword'
                                             onChange={handleChange}
-                                            value={values.password}
-                                            id="password"
-                                            type="password"
-                                            placeholder="m@example.com"
-
+                                            value={values.newPassword}
+                                            id="newPassword"
+                                            type="newPassword"
                                         />
-                                        {errors.password && touched.password && <p className="text-red-500">
-                                            {errors.password}
+                                        {errors.newPassword && touched.newPassword && <p className="text-red-500">
+                                            {errors.newPassword}
                                         </p>}
 
                                     </div>
