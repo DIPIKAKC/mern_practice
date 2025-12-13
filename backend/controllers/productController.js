@@ -8,10 +8,43 @@ export const getProducts = async (req, res) => {
     // console.log(rgt); //4
     // const products = await Product.find({rating:{$gt:rgt}});
 
-    const { select } = req.query;
-    const fields = select.replaceAll(',',' ');
-    const products = await Product.find().select(fields);
-    console.log(products)
+    // const { select } = req.query;
+    // const fields = select.replaceAll(',',' ');
+
+    console.log(req.query);
+    const exludedFields = ['page', 'limit', 'sort', 'fields', 'skip', 'search'];
+    let queryObj = { ...req.query };
+
+    exludedFields.forEach((val) => {
+      delete queryObj[val];
+    })
+
+    if (req.query.search) {
+      const searchText = req.query.search;
+
+      if (categories.some((name) => name.toLowerCase() === searchText.toLowerCase())) {
+        queryObj.category = { $regex: searchText, $options: 'i' };
+
+      } else if (brands.some((name) => name.toLowerCase() === searchText.toLowerCase())) {
+        queryObj.brand = { $regex: searchText, $options: 'i' };
+      } else {
+        queryObj.title = { $regex: searchText, $options: 'i' };
+      }
+    }
+
+
+    let query = Product.find(queryObj);
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').joim(' ');
+      query = query.sort(sortBy);
+    }
+    if (req.query.fields) {
+      const fields = req.query.fields.split(',').joim(' ');
+      query = query.select(fields);
+    }
+
+    // const products = await Product.find({});
+    // console.log(products)
     return res.status(200).json({
       status: "success",
       products

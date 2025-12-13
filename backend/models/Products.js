@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
-
+export const categories=["food", "clothes", "meow", "jewels"]
+export const brands=["nike", "bur", "huh", "bye"]
 
 const productSchema = new mongoose.Schema({
   title: {
@@ -19,12 +20,12 @@ const productSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ["food", "clothes", "meow", "jewels"]
+    enum: categories
   },
   brand: {
     type: String,
     required: true,
-    enum: ["nike", "bur", "huh", "bye"]
+    enum: brands
   },
   rating: {
     type: Number,
