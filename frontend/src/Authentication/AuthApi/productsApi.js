@@ -6,9 +6,10 @@ export const productsApi = mainApi.injectEndpoints({
 
         //query- what format data, mutation wat format data?
         getProducts: builder.query({
-            query: () => ({
+            query: (query) => ({
                 url: 'products',
                 method: 'GET',
+                params:query //for search
             }),
             providesTags: ['Product'] //It obeys 'invalidatetags' of the hook where data is expired. the hook provides task to re-fetch the data as it was expired.
         }),

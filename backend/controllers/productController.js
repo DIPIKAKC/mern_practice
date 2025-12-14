@@ -32,8 +32,22 @@ export const getProducts = async (req, res) => {
       }
     }
 
+    const output = Object.entries(queryObj).reduce((acc, [key, value]) => {
+      const match = key.match(/^(.+)\[(.+)\]$/);  // <-- FIXED REGEX
+      if (match) {
+        const field = match[1];
+        const operator = `$${match[2]}`;
+        const parsedValue = isNaN(value) ? value : Number(value);
 
-    let query = Product.find(queryObj);
+        acc[field] = { [operator]: parsedValue };
+      } else {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
+
+    let query = Product.find(output);
+
     if (req.query.sort) {
       const sortBy = req.query.sort.split(',').joim(' ');
       query = query.sort(sortBy);
@@ -43,11 +57,19 @@ export const getProducts = async (req, res) => {
       query = query.select(fields);
     }
 
-    // const products = await Product.find({});
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 10;
+    const skip = (page - 1) * 10;
+
+    const total = await Product.countDocuments();
+    const products = await query.skip(skip).limit(limit);
+
     // console.log(products)
     return res.status(200).json({
       status: "success",
-      products
+      total,
+      products,
+      totalPages:Math.ceil(total/limit)
     });
   } catch (error) {
     return res.status(500).json({ error });
