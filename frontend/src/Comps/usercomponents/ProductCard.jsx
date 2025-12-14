@@ -16,19 +16,19 @@ import { Formik } from 'formik'
 export const ProductCard = () => {
     //   const [liked, setLiked] = useState<boolean>(false)
     const nav = useNavigate();
-    const [params, setParams] = useSearchParams();
+    const [params, setParms] = useSearchParams();
     const [delayedLoading, setDelayedLoading] = useState(true);
 
-    const querYPage = params.get('page') ?? 1;
+    const querYPage = Number(params.get('page')) || 1;
 
     const query = params.get('search') ? {
         search: params.get('search')
     } : null;
-
-    const { data, isLoading } = useGetProductsQuery({
+    const { isLoading, error, data } = useGetProductsQuery({
         ...query,
         page: querYPage
     });
+    console.log("data:",data)
 
     useEffect(() => {
         window.scrollTo({
@@ -70,20 +70,20 @@ export const ProductCard = () => {
                     search: ''
                 }}
                 onSubmit={(val, { resetForm }) => {
-                    setParams({ search: val.search });
+                    setParms({ search: val.search });
                     resetForm();
                 }}
             >
-                {(handleChange, handleSubmit, values, touched, errors) => (
+                {({ handleChange, handleSubmit, values, touched, errors }) => (
                     <form onSubmit={handleSubmit} className="mt-4 mb-4 max-w-sm">
-                        <div className='flex gap-5'>
+                        <div className="flex gap-5">
                             <Input
-                                // value={values.search}
+                                value={values.search}
                                 onChange={handleChange}
-                                name='search'
-                                placeholder='Search' />
+                                name="search" placeholder="Search" />
                             <Button>Search</Button>
                         </div>
+
                     </form>
                 )}
             </Formik>
@@ -131,9 +131,9 @@ export const ProductCard = () => {
             </div>
 
             <div className="flex gap-5 my-5 justify-center">
-                <Button disabled={Number(querYPage) === 1} onClick={() => setParams({ page: Number(querYPage) - 1 })}>Prev</Button>
+                <Button disabled={Number(querYPage) === 1} onClick={() => setParms({ page: Number(querYPage) - 1 })}>Prev</Button>
                 <h1>{params.get('page') ?? 1}</h1>
-                <Button onClick={() => setParams({ page: Number(querYPage) + 1 })} disabled={data.totalPages === Number(querYPage)}>Next</Button>
+                <Button onClick={() => setParms({ page: Number(querYPage) + 1 })} disabled={data.totalPages === Number(querYPage)}>Next</Button>
             </div>
 
         </div>

@@ -5,7 +5,7 @@ export const base= 'http://localhost:5000';
 
 export const mainApi= createApi({
     reducerPath: 'mainApi',
-    baseQuery:fetchBaseQuery({baseUrl:'http://localhost:5000/api'}),
+    baseQuery:fetchBaseQuery({baseUrl:`${base}/api`}),
     endpoints:()=>({})
 })
 

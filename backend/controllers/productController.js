@@ -1,4 +1,4 @@
-import Product from "../models/Products.js";
+import Product, { brands, categories } from "../models/Products.js";
 import fs from 'fs';
 
 export const getProducts = async (req, res) => {
@@ -49,19 +49,19 @@ export const getProducts = async (req, res) => {
     let query = Product.find(output);
 
     if (req.query.sort) {
-      const sortBy = req.query.sort.split(',').joim(' ');
+      const sortBy = req.query.sort.split(',').join(' ');
       query = query.sort(sortBy);
     }
     if (req.query.fields) {
-      const fields = req.query.fields.split(',').joim(' ');
+      const fields = req.query.fields.split(',').join(' ');
       query = query.select(fields);
     }
 
     const page = req.query.page || 1;
     const limit = req.query.limit || 10;
-    const skip = (page - 1) * 10;
+    const skip = (page - 1) * limit;
 
-    const total = await Product.countDocuments();
+    const total = await Product.countDocuments(output);
     const products = await query.skip(skip).limit(limit);
 
     // console.log(products)
@@ -69,7 +69,7 @@ export const getProducts = async (req, res) => {
       status: "success",
       total,
       products,
-      totalPages:Math.ceil(total/limit)
+      totalPages: Math.ceil(total / limit)
     });
   } catch (error) {
     return res.status(500).json({ error });
