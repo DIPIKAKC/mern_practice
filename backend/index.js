@@ -8,6 +8,11 @@ import userRoutes from './routes/userRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
 import nodemailer from 'nodemailer';
 import cors from 'cors';
+import dotenv from 'dotenv';
+
+dotenv.config({
+  quiet: true
+});
 
 app.use(cors());
 app.use(express.json());
@@ -19,7 +24,7 @@ app.use('/uploads', express.static('uploads')); //locally backend ma save bhako 
 
 //for nodemailer
 const transporter = nodemailer.createTransport({
-service: 'gmail',
+  service: 'gmail',
   auth: {
     user: 'dipikak0323@gmail.com',
     pass: 'xnsr jief lpfu gpbx'
@@ -51,8 +56,8 @@ app.post('/send-email', async (req, res) => {
 
 //
 
-mongoose.connect('mongodb+srv://dipikak0323:MedEase@mern.cidwyre.mongodb.net/Shop?retryWrites=true&w=majority').then((val) => {
-  app.listen(port,'0.0.0.0', () => {
+mongoose.connect(process.env.DB_URL).then((val) => {
+  app.listen(port, '0.0.0.0', () => {
     console.log(`connected and server is running on ${port}`);
   });
 }).catch((err) => {

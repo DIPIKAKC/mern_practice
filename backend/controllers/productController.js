@@ -45,6 +45,7 @@ export const getProducts = async (req, res) => {
       }
       return acc;
     }, {});
+    console.log(output)
 
     let query = Product.find(output);
 
