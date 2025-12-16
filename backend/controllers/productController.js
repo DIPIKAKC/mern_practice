@@ -19,6 +19,7 @@ export const getProducts = async (req, res) => {
       delete queryObj[val];
     })
 
+    //category->brand->title
     if (req.query.search) {
       const searchText = req.query.search;
 
@@ -31,6 +32,7 @@ export const getProducts = async (req, res) => {
         queryObj.title = { $regex: searchText, $options: 'i' };
       }
     }
+
 
     const output = Object.entries(queryObj).reduce((acc, [key, value]) => {
       const match = key.match(/^(.+)\[(.+)\]$/);  // <-- FIXED REGEX
@@ -65,7 +67,8 @@ export const getProducts = async (req, res) => {
     const total = await Product.countDocuments(output);
     const products = await query.skip(skip).limit(limit);
 
-    // console.log(products)
+    console.log(total)
+    console.log(products)
     return res.status(200).json({
       status: "success",
       total,
